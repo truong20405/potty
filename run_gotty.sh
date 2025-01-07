@@ -3,10 +3,11 @@
 # Kiểm tra xem screen session đã tồn tại chưa
 screen -list | grep -q "mysession"
 
-# Nếu session chưa tồn tại, tạo mới
+# Nếu session chưa tồn tại, tạo mới và chạy GOTTY trong session đó
 if [ $? != 0 ]; then
-    screen -dmS mysession
+    # Tạo session mới và chạy GOTTY để chia sẻ terminal
+    screen -dmS mysession /usr/local/bin/gotty --permit-write --reconnect -p 8080 /bin/bash
 fi
 
-# Chạy lệnh hoặc chương trình dài hạn (ví dụ: Python script)
-screen -r mysession
+# Giữ container chạy mà không thoát
+tail -f /dev/null
