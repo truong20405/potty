@@ -1,11 +1,9 @@
 version: '3'
-
 services:
   my-gotty:
     image: my-gotty-image  # Thay thế bằng tên image Docker của bạn
-    build: .  # Nếu bạn build từ Dockerfile
     ports:
-      - "8989:8080"
-    tty: true  # Đảm bảo rằng terminal được khởi tạo
+      - "8989:8080"  # Ánh xạ cổng từ container sang cổng host
+    tty: true  # Đảm bảo terminal được khởi tạo
     stdin_open: true  # Mở stdin để bạn có thể nhập lệnh
-    command: /bin/bash /run_gotty.sh  # Chạy script khởi động
+    command: /bin/bash /run_gotty.sh  # Chạy script khởi động GOTTY
