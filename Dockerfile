@@ -1,5 +1,4 @@
 FROM ubuntu:20.04
-LABEL maintainer="wingnut0310 <wingnut0310@gmail.com>"
 
 # Cài đặt các gói cần thiết
 RUN apt-get update && \
@@ -22,4 +21,4 @@ RUN chmod 744 /run_gotty.sh
 EXPOSE 8080
 
 # Chạy GOTTY khi container bắt đầu
-CMD ["/bin/bash", "/run_gotty.sh"]
+CMD ["bash", "-c", "tail -f /dev/null"]
