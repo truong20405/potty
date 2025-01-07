@@ -1,8 +1,29 @@
-my-gotty:
-  hostname: mygotty
-  ports:
-  - 8989:8080
-  tty: true
-  image: modenaf360/gotty:latest
-  stdin_open: true
-  tty: true
+version: '3'
+
+services:
+  my-gotty:
+    hostname: mygotty
+    image: modenaf360/gotty:latest  # Sử dụng image GOTTY đã được chỉ định
+    ports:
+      - "8989:8080"  # Mở cổng 8080 trên container và ánh xạ đến cổng 8989 trên máy chủ
+    tty: true         # Đảm bảo rằng một terminal được tạo trong container
+    stdin_open: true  # Mở stdin để có thể nhập lệnh
+    command: /bin/bash /run_gotty.sh  # Chạy script khởi động GOTTY
+    volumes:
+      - ./logs:/root    # Gắn volume logs cho file log (nếu cần thiết)
+      - ./tmux_sessions:/root/.tmux  # Gắn volume để lưu trữ session của tmux
+    restart: unless-stopped  # Khởi động lại container trừ khi nó bị dừng bởi người dùng
+    environment:
+      - TZ=Asia/Ho_Chi_Minh  # Đặt múi giờ cho container
+    networks:
+      - gotty_network  # Kết nối container vào mạng riêng để tăng cường bảo mật
+
+    logging:
+      driver: "json-file"  # Chọn driver logging, có thể dùng json để dễ dàng truy cập logs
+      options:
+        max-size: "10m"     # Giới hạn kích thước file log, tránh việc tạo ra log quá lớn
+        max-file: "3"       # Giới hạn số lượng file log cũ lưu trữ (giữ lại 3 file log)
+
+networks:
+  gotty_network:
+    driver: bridge  # Dùng mạng bridge cho các container kết nối với nhau (mạng riêng)
