@@ -8,5 +8,5 @@ if [ $? != 0 ]; then
     screen -dmS mysession
 fi
 
-# Kết nối với screen session
+# Chạy lệnh hoặc chương trình dài hạn (ví dụ: Python script)
 screen -r mysession
